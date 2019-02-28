@@ -66,26 +66,6 @@
         <enabled>false</enabled>
       </snapshots>
     </repository>
-    <repository>
-            <id>jboss-ga-repository</id>
-            <url>http://maven.repository.redhat.com/techpreview/all</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </repository>
-        <repository>
-            <id>jboss-public-repository</id>
-            <url>http://repository.jboss.org/nexus/content/repositories/public/</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </repository>
   </repositories>
   <dependencies>
     <dependency>
