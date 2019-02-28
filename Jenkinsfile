@@ -8,7 +8,7 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                sh 'mvn -B -DskipTests clean package'
+                sh 'mvn -B -DskipTests package'
             }
         }
         stage('Test') {
@@ -19,7 +19,7 @@ pipeline {
         stage('Deliver') { 
             steps {
             echo 'Delivery for JBOSS'
-                                sh 'mvn install'
+                                sh 'mvn clean install'
             }
         }
     }
