@@ -1,5 +1,6 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.mycompany.app</groupId>
   <artifactId>my-app</artifactId>
@@ -7,28 +8,65 @@
   <version>1.0-SNAPSHOT</version>
   <name>my-app</name>
   <url>http://maven.apache.org</url>
+  <pluginRepositories>
+    <pluginRepository>
+      <id>repository.jboss.org_thirdparty-releases</id>
+      <name>JBoss.org third party releases repository</name>
+      <url>https://repository.jboss.org/nexus/content/repositories/thirdparty-releases</url>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+    </pluginRepository>
+    <pluginRepository>
+      <id>repository.jboss.org_thirdparty-uploads</id>
+      <name>JBoss.org third party uploads repository</name>
+      <url>https://repository.jboss.org/nexus/content/repositories/thirdparty-uploads</url>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+    </pluginRepository>
+  </pluginRepositories>
+
   <repositories>
-        <repository>
-          <id>jboss-ga-repository</id>
-          <url>http://maven.repository.redhat.com/techpreview/all</url>
-          <releases>
-            <enabled>true</enabled>
-          </releases>
-          <snapshots>
-            <enabled>false</enabled>
-          </snapshots>
-        </repository>
-        <repository>
-          <id>jboss-public-repository</id>
-          <url>http://repository.jboss.org/nexus/content/repositories/public/</url>
-          <releases>
-            <enabled>true</enabled>
-          </releases>
-          <snapshots>
-            <enabled>false</enabled>
-          </snapshots>
-        </repository>
-      </repositories>
+    <repository>
+      <id>repository.jboss.org_thirdparty-releases</id>
+      <name>JBoss.org third party releases repository</name>
+      <url>https://repository.jboss.org/nexus/content/repositories/thirdparty-releases</url>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+    </repository>
+    <repository>
+      <id>repository.jboss.org_thirdparty-uploads</id>
+      <name>JBoss.org third party uploads repository</name>
+      <url>https://repository.jboss.org/nexus/content/repositories/thirdparty-uploads</url>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+    </repository>
+    <repository>
+      <id>jboss-eap</id>
+      <url>file:///path/to/repo/jboss-eap-7.0.0.GA-maven-repository/maven-repository</url>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+    </repository>
+  </repositories>
   <dependencies>
     <dependency>
       <groupId>junit</groupId>
@@ -67,6 +105,41 @@
             </manifest>
           </archive>
         </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.wildfly.plugins</groupId>
+        <artifactId>wildfly-maven-plugin</artifactId>
+        <version>1.1.0.Final</version>
+        <configuration>
+          <hostname>localhost</hostname>
+          <port>9990</port>
+          <username>jboss-local-admin</username>
+          <password>jboss-local-admin-password</password>
+          <jboss-home>local-jboss-home</jboss-home>
+          <name>${project.build.finalName}.${project.packaging}</name>
+        </configuration>
+        <executions>
+          <!-- Undeploy the application on clean -->
+          <execution>
+            <id>undeploy</id>
+            <phase>clean</phase>
+            <goals>
+              <goal>undeploy</goal>
+            </goals>
+            <configuration>
+              <ignoreMissingDeployment>true</ignoreMissingDeployment>
+            </configuration>
+          </execution>
+
+          <!-- Deploy the application on install -->
+          <execution>
+            <id>deploy</id>
+            <phase>install</phase>
+            <goals>
+              <goal>deploy</goal>
+            </goals>
+          </execution>
+        </executions>
       </plugin>
     </plugins>
   </build>
